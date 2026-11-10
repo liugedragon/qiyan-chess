@@ -44,5 +44,5 @@ try {
 } finally { $stream.Dispose() }
 $hash = (Get-FileHash -LiteralPath $OutputPath -Algorithm SHA256).Hash.ToLowerInvariant()
 $line = "$hash  $([IO.Path]::GetFileName($OutputPath))"
-$line | Set-Content -LiteralPath (Join-Path (Split-Path $OutputPath -Parent) 'SHA256SUMS.txt') -Encoding ascii
+[IO.File]::WriteAllText((Join-Path (Split-Path $OutputPath -Parent) 'SHA256SUMS.txt'), ($line + "`n"), [Text.ASCIIEncoding]::new())
 Write-Output $line
