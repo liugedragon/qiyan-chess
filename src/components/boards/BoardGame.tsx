@@ -45,6 +45,8 @@ import {
   flipBoardAfterMoveAtom,
   currentGameIdAtom,
   currentGameStateAtom,
+  currentAnalysisTabAtom,
+  currentTabSelectedAtom,
   currentPlayersAtom,
   gameInputColorAtom,
   gameOpeningBookEnabledAtom,
@@ -226,7 +228,18 @@ function BoardGame() {
     [root, setFen, appendMove],
   );
 
-  function changeToAnalysisMode() {
+  const [, setAnalysisTab] = useAtom(currentAnalysisTabAtom);
+  const [, setPanelTab] = useAtom(currentTabSelectedAtom);
+
+  async function changeToAnalysisMode() {
+    if (gameId && gameState === "playing") {
+      const result = await commands.getGameState(gameId);
+      await commands.abortGame(gameId);
+      if (result.status === "ok") syncTreeWithMoves(mapBackendMoves(result.data.moves));
+      setGameState("gameOver");
+    }
+    setPanelTab("analysis");
+    setAnalysisTab("report");
     setTabs((prev) =>
       prev.map((tab) => (tab.value === activeTab ? { ...tab, type: "analysis" } : tab)),
     );
@@ -755,12 +768,12 @@ function BoardGame() {
                         onClick={isEngineVsEngine ? handleAbort : handleResign}
                         leftSection={<IconX />}
                       >
-                        {isEngineVsEngine ? "Abort" : "Resign"}
+                        {isEngineVsEngine ? "中止对局" : "认输"}
                       </Button>
                     )}
                     {gameState === "gameOver" && (
                       <Button variant="default" onClick={handleNewGame} leftSection={<IconPlus />}>
-                        New Game
+                        再来一局
                       </Button>
                     )}
                     <Button
@@ -768,7 +781,7 @@ function BoardGame() {
                       onClick={() => changeToAnalysisMode()}
                       leftSection={<IconZoomCheck />}
                     >
-                      Analyze
+                      复盘分析
                     </Button>
 
                     {hasEngine && (
@@ -777,7 +790,7 @@ function BoardGame() {
                         onClick={() => toggleLogsOpened()}
                         leftSection={<IconFileText size="1rem" />}
                       >
-                        Engine Logs
+                        引擎日志
                       </Button>
                     )}
                   </Group>

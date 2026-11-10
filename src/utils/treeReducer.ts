@@ -20,6 +20,7 @@ export interface TreeNode {
     children: TreeNode[];
     score: Score | null;
     depth: number | null;
+    engineBestMove?: { uci: string; san: string };
     halfMoves: number;
     shapes: DrawShape[];
     annotations: Annotation[];

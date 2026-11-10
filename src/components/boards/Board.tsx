@@ -50,6 +50,7 @@ import {
 import { keyMapAtom } from "@/state/keybinds";
 import classes from "@/styles/Chessboard.module.css";
 import { ANNOTATION_INFO, isBasicAnnotation } from "@/utils/annotation";
+import { reviewAtPath } from "@/utils/move-review";
 import { getMoveDestination, getVariationLine } from "@/utils/chess";
 import { chessopsError, forceEnPassant, positionFromFen } from "@/utils/chessops";
 import { getTabFile, getTabGameNumber } from "@/utils/tabs";
@@ -106,6 +107,8 @@ function Board({
   const store = useContext(TreeStateContext)!;
 
   const root = useStore(store, (s) => s.root);
+  const reviewPath = useStore(store, (s) => s.position);
+  const moveReview = reviewAtPath(root, reviewPath);
   const rootFen = useStore(store, (s) => s.root.fen);
   const moves = useStore(
     store,
@@ -434,7 +437,7 @@ function Board({
             gap="sm"
           >
             {showComments &&
-              currentNode.annotations.length > 0 &&
+              (moveReview || currentNode.annotations.length > 0) &&
               currentNode.move &&
               square !== undefined && (
                 <Box pl="2.5rem" w="100%" h="100%" pos="absolute">
@@ -442,7 +445,8 @@ function Board({
                     <AnnotationHint
                       orientation={orientation}
                       square={square}
-                      annotation={currentNode.annotations[0]}
+                      annotation={currentNode.annotations[0] || ""}
+                      reviewKind={moveReview?.kind}
                     />
                   </Box>
                 </Box>

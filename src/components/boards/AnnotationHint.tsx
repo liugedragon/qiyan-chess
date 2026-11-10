@@ -3,18 +3,22 @@ import type { Color, Square } from "chessops";
 import type { ReactNode } from "react";
 import { ANNOTATION_INFO, type Annotation } from "@/utils/annotation";
 import { squareToCoordinates } from "@/utils/chessops";
+import { REVIEW_INFO, type ReviewKind } from "@/utils/move-review";
 
 export default function AnnotationHint({
   square,
   annotation,
   orientation,
+  reviewKind,
 }: {
   square: Square;
   annotation: Annotation;
   orientation: Color;
+  reviewKind?: ReviewKind;
 }) {
   const { file, rank } = squareToCoordinates(square, orientation);
-  const color = ANNOTATION_INFO[annotation]?.color || "gray";
+  const info = reviewKind ? REVIEW_INFO[reviewKind] : null;
+  const color = info?.color || ANNOTATION_INFO[annotation]?.color || "gray";
 
   return (
     <Box
@@ -43,13 +47,28 @@ export default function AnnotationHint({
             variant="filled"
           >
             <svg viewBox="0 0 100 100">
-              <title>{annotation}</title>
+              <title>{info?.label || annotation}</title>
               <defs>
                 <filter id="shadow">
                   <feDropShadow dx="0" dy="1" floodOpacity="0.3" stdDeviation="0" />
                 </filter>
               </defs>
-              <g>{glyphToSvg[annotation]}</g>
+              {info ? (
+                <text
+                  x="50"
+                  y="55"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="white"
+                  fontSize="64"
+                  fontWeight="bold"
+                  fontFamily="Segoe UI Symbol, sans-serif"
+                >
+                  {info.symbol}
+                </text>
+              ) : (
+                <g>{glyphToSvg[annotation]}</g>
+              )}
             </svg>
           </Box>
         }

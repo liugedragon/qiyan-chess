@@ -555,6 +555,8 @@ test("should handle addAnalysis", () => {
                         },
                         wdl: null,
                     },
+                    depth: 1,
+                    engineBestMove: { uci: "d7d5", san: "d5" },
                 },
             ],
             score: {
@@ -564,6 +566,8 @@ test("should handle addAnalysis", () => {
                 },
                 wdl: null,
             },
+            depth: 1,
+            engineBestMove: { uci: "e2e4", san: "e4" },
         },
     });
 });

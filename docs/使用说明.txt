@@ -1,0 +1,40 @@
+棋研 / QiyanChess · 国际象棋对战与复盘
+
+下载与源码
+https://github.com/liugedragon/qiyan-chess
+发行包：https://github.com/liugedragon/qiyan-chess/releases/latest
+
+启动
+将压缩包完整解压到可写目录，双击 QiyanChess.exe。
+保留 engine、sound、vision、duckdb.dll、aixchess.duckdb_extension 等全部运行文件。
+系统需要 Microsoft Edge WebView2 Runtime。
+本地对弈和附带引擎分析不需要账号或 API 密钥；在线服务和额外下载需要网络。
+
+人机对战
+首页点击「人机对战」，在设置中选择颜色、时间和引擎参数，再开始对局。
+默认无时间限制、Stockfish Skill Level 5、每步思考 500 毫秒。
+点击起点再点击终点，或拖动棋子走棋。
+
+本地双人
+首页点击「本地双人」，两人在同一台电脑轮流走棋。
+
+复盘
+导入 PGN，或在对局结束后点击「复盘分析」。对局中切换复盘会结束当前对局。
+在「报告」中点击「生成报告」，选择本地 Stockfish 后开始。
+默认每个局面分析 500 毫秒，不要求参考棋谱数据库；增加时间通常能提高分析稳定性。
+点击棋谱、评估曲线或分类数量，查看对应局面和推荐走法。
+通过文件菜单保存或导出 PGN。
+
+评级
+棋盘、棋谱和报告共用同一组分类。普通评级根据引擎预期得分损失分档，其他类别结合最佳走法、弃子、唯一合法走法、开局路线及错失将杀等信息。
+评级和准确率依赖引擎分析与启发式规则，并非 Chess.com 的同一套模型；分析时间改变时结果也可能改变。
+
+数据与更新
+在设置中查看或自定义棋谱、引擎、数据库和习题目录。
+应用标识为 local.qiyan.chess；PGN 默认文档文件夹仍保留 EnCroissant 名称。
+本发行版已停用使用统计。更新菜单打开本项目的 GitHub Releases 页面，供手动下载。
+替换旧版文件夹前，先备份 PGN 和数据库。
+
+许可
+本项目派生自 En Croissant，应用源码采用 GPL-3.0-only，保留上游历史和作者归属。
+Stockfish、Aix、DuckDB 与模型资源分别保留其许可。ChessQ 模型权重单独采用 PolyForm Noncommercial 1.0.0，详见随包 THIRD-PARTY-NOTICES.md 及 vision 中的许可文件。

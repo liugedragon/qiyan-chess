@@ -1,5 +1,6 @@
 import { Button, Checkbox, Group, Modal, NumberInput, Select, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { useAtom, useAtomValue } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { memo, useContext, useEffect, useMemo } from "react";
@@ -11,7 +12,7 @@ import { enginesAtom, referenceDbAtom } from "@/state/atoms";
 import type { LocalEngine } from "@/utils/engines";
 
 const reportSettingsAtom = atomWithStorage("report-settings", {
-  novelty: true,
+  novelty: false,
   reversed: true,
   variations: true,
   goMode: { t: "Time", c: 500 } as Exclude<GoMode, { t: "Infinite" }>,
@@ -98,8 +99,11 @@ function ReportModal({
           addAnalysis(analysis.data, {
             showVariations: form.values.variations,
           });
+        } else {
+          notifications.show({ color: "red", title: "复盘失败", message: String(analysis.error) });
         }
       })
+      .catch((error) => notifications.show({ color: "red", title: "复盘失败", message: String(error) }))
       .finally(() => setInProgress(false));
   }
 

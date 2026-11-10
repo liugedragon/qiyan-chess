@@ -4,6 +4,7 @@
 )]
 
 mod chess;
+mod bundled_engine;
 mod db;
 mod engine;
 mod error;
@@ -111,7 +112,11 @@ pub fn file_from_args(args: &[String], cwd: &str) -> Option<String> {
     } else {
         first
     };
-    if args.next().is_some() || file.to_ascii_lowercase().starts_with("encroissant:") {
+    let lower = file.to_ascii_lowercase();
+    if args.next().is_some()
+        || lower.starts_with("qiyanchess:")
+        || lower.starts_with("encroissant:")
+    {
         return None;
     }
     Some(
@@ -248,6 +253,7 @@ fn main() {
         .manage(AppState::default())
         .setup(move |app| {
             log::info!("Setting up application");
+            bundled_engine::install(app)?;
 
             let aixchess_extension_path = app
                 .path()
@@ -291,9 +297,6 @@ fn main() {
             #[cfg(desktop)]
             app.handle().plugin(tauri_plugin_cli::init())?;
 
-            #[cfg(desktop)]
-            app.handle()
-                .plugin(tauri_plugin_updater::Builder::new().build())?;
 
             log::info!("Finished rust initialization");
 

@@ -1,9 +1,8 @@
-import { Grid, Group, Paper, ScrollArea, Stack, Text } from "@mantine/core";
+import { Group, Paper, ScrollArea, Stack, Text } from "@mantine/core";
 import { IconZoomCheck } from "@tabler/icons-react";
-import cx from "clsx";
-import equal from "fast-deep-equal";
+
 import { useAtom, useAtomValue } from "jotai";
-import React, { memo, useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "zustand";
 import { commands } from "@/bindings";
@@ -11,10 +10,13 @@ import EvalChart from "@/components/common/EvalChart";
 import ProgressButton from "@/components/common/ProgressButton";
 import { TreeStateContext } from "@/components/common/TreeStateContext";
 import { activeTabAtom, currentReportModalOpenAtom } from "@/state/atoms";
-import { ANNOTATION_INFO, isBasicAnnotation } from "@/utils/annotation";
+
 import { getGameStats, getMainLine } from "@/utils/chess";
-import classes from "./AnalysisPanel.module.css";
+import { getNodeAtPath } from "@/utils/treeReducer";
+
 import ReportModal from "./ReportModal";
+import ReviewSummary from "./ReviewSummary";
+import { REVIEW_INFO, reviewAtPath } from "@/utils/move-review";
 
 function ReportPanel() {
   const { t } = useTranslation();
@@ -23,6 +25,13 @@ function ReportPanel() {
 
   const store = useContext(TreeStateContext)!;
   const root = useStore(store, (s) => s.root);
+  const position = useStore(store, (s) => s.position);
+  const selected = getNodeAtPath(root, position);
+  const parent = position.length ? getNodeAtPath(root, position.slice(0, -1)) : null;
+  const best = parent?.engineBestMove;
+  const review = reviewAtPath(root, position);
+  const reviewInfo = review ? REVIEW_INFO[review.kind] : null;
+  const classification = reviewInfo ? `${reviewInfo.symbol} ${reviewInfo.label}` : "尚未分析";
   const [reportingMode, setReportingMode] = useAtom(currentReportModalOpenAtom);
 
   const inProgress = useStore(store, (s) => s.report.inProgress);
@@ -88,84 +97,39 @@ function ReportPanel() {
         <Paper withBorder p="md">
           <EvalChart isAnalysing={inProgress} startAnalysis={openReportingMode} />
         </Paper>
+        {position.length > 0 && best && (
+          <Paper withBorder p="md">
+            <Stack gap={4}>
+              <Text fw={700} c={reviewInfo?.color}>
+                {selected.san} · {classification}
+              </Text>
+              <Text size="sm">
+                本步推荐：{best.san}（分析深度 {parent?.depth ?? "—"}）
+              </Text>
+              {review && (
+                <Text size="sm">
+                  预期得分变化：{(review.before * 100).toFixed(1)}% →{" "}
+                  {(review.after * 100).toFixed(1)}% · 损失 {(review.loss * 100).toFixed(1)}{" "}
+                  个百分点
+                </Text>
+              )}
+              {reviewInfo && (
+                <Text size="sm" c="dimmed">
+                  {reviewInfo.description}
+                </Text>
+              )}
+              <Text size="xs" c="dimmed">
+                点击棋谱或曲线逐步查看；最佳走法以本次引擎分析结果为准。
+              </Text>
+            </Stack>
+          </Paper>
+        )}
 
-        <GameStats {...stats} />
+        <ReviewSummary />
       </Stack>
     </ScrollArea>
   );
 }
-
-type Stats = ReturnType<typeof getGameStats>;
-
-const GameStats = memo(
-  function GameStats({ whiteAnnotations, blackAnnotations }: Stats) {
-    const { t } = useTranslation();
-
-    const store = useContext(TreeStateContext)!;
-    const goToAnnotation = useStore(store, (s) => s.goToAnnotation);
-
-    return (
-      <Paper withBorder>
-        <Grid columns={12} align="center" p="md">
-          {Object.keys(ANNOTATION_INFO)
-            .filter((a) => isBasicAnnotation(a))
-            .map((annotation) => {
-              const s = annotation as "??" | "?" | "?!" | "!!" | "!" | "!?";
-              const { name, color, translationKey } = ANNOTATION_INFO[s];
-              const w = whiteAnnotations[s];
-              const b = blackAnnotations[s];
-              return (
-                <React.Fragment key={annotation}>
-                  <Grid.Col
-                    className={cx(w > 0 && classes.label)}
-                    span={3}
-                    style={{ textAlign: "center" }}
-                    c={w > 0 ? color : undefined}
-                    onClick={() => {
-                      if (w > 0) {
-                        goToAnnotation(s, "white");
-                      }
-                    }}
-                  >
-                    {w}
-                  </Grid.Col>
-                  <Grid.Col
-                    span={2}
-                    style={{ textAlign: "center", fontWeight: "bold" }}
-                    c={w + b > 0 ? color : undefined}
-                  >
-                    {annotation}
-                  </Grid.Col>
-                  <Grid.Col span={4} c={w + b > 0 ? color : undefined}>
-                    {translationKey ? t(`Annotate.${translationKey}`) : name}
-                  </Grid.Col>
-                  <Grid.Col
-                    className={cx(b > 0 && classes.label)}
-                    span={3}
-                    style={{ textAlign: "center" }}
-                    c={b > 0 ? color : undefined}
-                    onClick={() => {
-                      if (b > 0) {
-                        goToAnnotation(s, "black");
-                      }
-                    }}
-                  >
-                    {b}
-                  </Grid.Col>
-                </React.Fragment>
-              );
-            })}
-        </Grid>
-      </Paper>
-    );
-  },
-  (prev, next) => {
-    return (
-      equal(prev.whiteAnnotations, next.whiteAnnotations) &&
-      equal(prev.blackAnnotations, next.blackAnnotations)
-    );
-  },
-);
 
 function AccuracyCard({ color, cpl, accuracy }: { color: string; cpl: number; accuracy: number }) {
   const { t } = useTranslation();

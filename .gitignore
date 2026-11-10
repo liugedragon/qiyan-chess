@@ -12,6 +12,9 @@ node_modules
 coverage
 dist
 dist-ssr
+release/
+vendor/stockfish-windows.zip
+vendor/duckdb-runtime/runtime.tar.gz
 *.local
 .next
 tsconfig.tsbuildinfo
@@ -28,3 +31,12 @@ tsconfig.tsbuildinfo
 *.sw?
 
 src-tauri/gen/
+
+# Downloaded build resources and local packaging output
+vendor/.cache/
+vendor/engine/*.exe
+vendor/stockfish/**/*.exe
+vendor/duckdb-runtime/*.dll
+vendor/duckdb-runtime/*.lib
+artifacts/
+*.download-*

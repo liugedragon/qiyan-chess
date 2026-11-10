@@ -1729,7 +1729,6 @@ dependencies = [
 [[package]]
 name = "duckdb"
 version = "1.20000.0"
-source = "git+https://github.com/duckdb/duckdb-rs?rev=4acbea84794582c4cd962ee971a3d7a5dcb72e39#4acbea84794582c4cd962ee971a3d7a5dcb72e39"
 dependencies = [
  "arrow",
  "cast",
@@ -1806,7 +1805,7 @@ checksum = "4ef6b89e5b37196644d8796de5268852ff179b44e96276cf4290264843743bb7"
 
 [[package]]
 name = "en-croissant"
-version = "0.15.1"
+version = "0.15.1-qiyan.1"
 dependencies = [
  "aix-chess-compression",
  "axum",
@@ -3598,9 +3597,7 @@ checksum = "6800badb6cb2082ffd7b6a67e6125bb39f18782f793520caee8cb8846be06112"
 [[package]]
 name = "libduckdb-sys"
 version = "1.20000.0"
-source = "git+https://github.com/duckdb/duckdb-rs?rev=4acbea84794582c4cd962ee971a3d7a5dcb72e39#4acbea84794582c4cd962ee971a3d7a5dcb72e39"
 dependencies = [
- "cc",
  "flate2",
  "pkg-config",
  "serde",

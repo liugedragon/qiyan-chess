@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "stockfish": {
+    "version": "19",
+    "archive": {
+      "url": "https://github.com/official-stockfish/Stockfish/releases/download/sf_19/stockfish-windows-x86-64-universal.zip",
+      "sha256": "3c8bf1f9ea66a09350a40df4f632288285ac206d99f33ab5842c408fc30b48a7",
+      "size": 81431614
+    },
+    "entry": "stockfish/stockfish-windows-x86-64-universal.exe",
+    "path": "vendor/engine/stockfish.exe",
+    "sha256": "45bc8e4969147db9c2eb533810637994619bff0eacc81ccfd9854394901bcbd0",
+    "size": 103046300
+  },
+  "duckdb": {
+    "version": "2.0.0",
+    "archive": {
+      "url": "https://github.com/duckdb/duckdb/releases/download/v2.0.0/duckdb-shared-libs-windows-amd64.tar.gz",
+      "mirror_url": "https://install.duckdb.org/v2.0.0/duckdb-shared-libs-windows-amd64.tar.gz",
+      "sha256": "2b83169128239de5f45fe21de80f99bf436e53aa4bb24020dd951a1ba8d4b95f",
+      "size": 19833650
+    },
+    "directory": "vendor/duckdb-runtime",
+    "files": {
+      "duckdb.dll": {
+        "sha256": "8785bcbb0f4570c9662c4c890f9fa5c7cfb3239ce25e589c29693ce2139f9897",
+        "size": 61311784
+      },
+      "duckdb.lib": {
+        "sha256": "4a6434e4e88b9a7a25a838dfebebaae7c31a9bc5dc909b38588ee21bad79b2be"
+      }
+    }
+  },
+  "aix": {
+    "owner": "franciscoBSalgueiro",
+    "repository": "aix",
+    "tag": "dev-97b5475",
+    "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c",
+    "targets": {
+      "linux_amd64": {
+        "name": "aixchess-v2.0.0-extension-linux_amd64.duckdb_extension",
+        "url": "https://github.com/franciscoBSalgueiro/aix/releases/download/dev-97b5475/aixchess-v2.0.0-extension-linux_amd64.duckdb_extension",
+        "sha256": "2c8381b10fc76db94ae1a67ea9c3b789655825098130aca96123bcd99f9b9a26",
+        "size": 20668022,
+        "release_tag": "dev-97b5475",
+        "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c"
+      },
+      "linux_arm64": {
+        "name": "aixchess-v2.0.0-extension-linux_arm64.duckdb_extension",
+        "url": "https://github.com/franciscoBSalgueiro/aix/releases/download/dev-97b5475/aixchess-v2.0.0-extension-linux_arm64.duckdb_extension",
+        "sha256": "bc6e7541cdf596bd50f1afad79dcd9ff75334051c4454a9d08620d08d4d70492",
+        "size": 21113486,
+        "release_tag": "dev-97b5475",
+        "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c"
+      },
+      "osx_arm64": {
+        "name": "aixchess-v2.0.0-extension-osx_arm64.duckdb_extension",
+        "url": "https://github.com/franciscoBSalgueiro/aix/releases/download/dev-97b5475/aixchess-v2.0.0-extension-osx_arm64.duckdb_extension",
+        "sha256": "6880357bc61593628f7e0f7b5e5dab976e5e1b031673c9e0919f414f548b7d9d",
+        "size": 12531214,
+        "release_tag": "dev-97b5475",
+        "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c"
+      },
+      "windows_amd64": {
+        "name": "aixchess-v2.0.0-extension-windows_amd64.duckdb_extension",
+        "url": "https://github.com/franciscoBSalgueiro/aix/releases/download/dev-97b5475/aixchess-v2.0.0-extension-windows_amd64.duckdb_extension",
+        "sha256": "6242e596503fcaac1399ae7d0844a39905bf5f7b2978c4e38250e57462bfc927",
+        "size": 47431702,
+        "release_tag": "dev-97b5475",
+        "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c"
+      },
+      "windows_amd64_mingw": {
+        "name": "aixchess-v2.0.0-extension-windows_amd64_mingw.duckdb_extension",
+        "url": "https://github.com/franciscoBSalgueiro/aix/releases/download/dev-97b5475/aixchess-v2.0.0-extension-windows_amd64_mingw.duckdb_extension",
+        "sha256": "f378d32a32158271ce5a1b5326299004f512756c8f38abc07ee043d4c0fb5ed7",
+        "size": 78832986,
+        "release_tag": "dev-97b5475",
+        "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c"
+      },
+      "windows_arm64": {
+        "name": "aixchess-v2.0.0-extension-windows_arm64.duckdb_extension",
+        "url": "https://github.com/franciscoBSalgueiro/aix/releases/download/dev-97b5475/aixchess-v2.0.0-extension-windows_arm64.duckdb_extension",
+        "sha256": "45c2ed4bac5d0714de19bb7a9c02153172d02cd83bf3490932727a2a8cb63244",
+        "size": 43434518,
+        "release_tag": "dev-97b5475",
+        "source_commit": "97b5475b8f9ceef9fa1ee65c2814e3e71797805c"
+      }
+    }
+  },
+  "vision": {
+    "path": "src-tauri/resources/vision/chessq-lite-v4.safetensors",
+    "sha256": "fd269bcfdefe6208b75490d7ac72524c0970f8212470a88012ce755b5f092d10",
+    "size": 63147914
+  }
+}

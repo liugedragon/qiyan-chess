@@ -5,14 +5,13 @@ import { TauriEvent } from "@tauri-apps/api/event";
 import { Menu, MenuItem, PredefinedMenuItem, Submenu } from "@tauri-apps/api/menu";
 import { appLogDir, resolve } from "@tauri-apps/api/path";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { ask, message, open } from "@tauri-apps/plugin-dialog";
+import { ask, open } from "@tauri-apps/plugin-dialog";
 import { error } from "@tauri-apps/plugin-log";
 import { platform } from "@tauri-apps/plugin-os";
-import { exit, relaunch } from "@tauri-apps/plugin-process";
+import { exit } from "@tauri-apps/plugin-process";
 import { openPath, openUrl } from "@tauri-apps/plugin-opener";
-import { check } from "@tauri-apps/plugin-updater";
 import { useAtom, useAtomValue } from "jotai";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTranslation } from "react-i18next";
 import useSWRImmutable from "swr/immutable";
@@ -121,29 +120,13 @@ function RootLayout() {
     });
   }, [navigate, setActiveTab, setTabs, t]);
 
-  const updateInProgress = useRef(false);
-  const checkForUpdates = useCallback(async () => {
-    if (updateInProgress.current) return;
-    updateInProgress.current = true;
+  const openReleasePage = useCallback(async () => {
     try {
-      const update = await check();
-      if (update) {
-        const yes = await ask("Do you want to install the new version now?", {
-          title: "New version available",
-        });
-        if (yes) {
-          await update.downloadAndInstall();
-          await relaunch();
-        }
-      } else {
-        await message("No updates available");
-      }
+      await openUrl("https://github.com/liugedragon/qiyan-chess/releases");
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : String(cause);
-      void error(message).catch(console.error);
-      notifications.show({ title: t("Common.Error"), message, color: "red" });
-    } finally {
-      updateInProgress.current = false;
+      const failureMessage = cause instanceof Error ? cause.message : String(cause);
+      void error(failureMessage).catch(console.error);
+      notifications.show({ title: t("Common.Error"), message: failureMessage, color: "red" });
     }
   }, [t]);
 
@@ -183,10 +166,10 @@ function RootLayout() {
     action: () => setOpened(true),
   };
 
-  const checkForUpdatesOption = {
+  const releasesOption = {
     label: t("Menu.Help.CheckUpdate"),
     id: "check_for_updates",
-    action: checkForUpdates,
+    action: openReleasePage,
   };
 
   const appMenu: MenuGroup = {
@@ -199,7 +182,7 @@ function RootLayout() {
         id: aboutOption.id,
         action: aboutOption.action,
       },
-      checkForUpdatesOption,
+      releasesOption,
       { label: "divider" },
       {
         label: t("SideBar.Settings") + "...",
@@ -354,13 +337,13 @@ function RootLayout() {
             },
           },
           { label: "divider" },
-          ...(!isMacOS ? [checkForUpdatesOption, aboutOption] : []),
+          ...(!isMacOS ? [releasesOption, aboutOption] : []),
         ],
       },
     ],
     [
       t,
-      checkForUpdates,
+      openReleasePage,
       createNewTab,
       keyMap,
       openNewFile,

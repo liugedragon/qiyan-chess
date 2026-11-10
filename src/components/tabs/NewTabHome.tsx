@@ -17,6 +17,9 @@ import {
   activeTabAtom,
   addRecentFileAtom,
   deckAtomFamily,
+  enginesAtom,
+  gamePlayer1SettingsAtom,
+  gamePlayer2SettingsAtom,
   type RecentFile,
   recentFilesAtom,
   tabFamily,
@@ -115,6 +118,21 @@ export default function NewTabHome({ id }: { id: string }) {
   const [recentFiles, setRecentFiles] = useAtom(recentFilesAtom);
   const store = useStore();
   const navigate = useNavigate();
+  const [engines] = useAtom(enginesAtom);
+  const setPlayer1 = useSetAtom(gamePlayer1SettingsAtom);
+  const setPlayer2 = useSetAtom(gamePlayer2SettingsAtom);
+
+  function prepareGame(computer: boolean) {
+    const engine = engines?.find((e) => e.type === "local");
+    if (computer && (!engine || engine.type !== "local")) return;
+    setPlayer1({ type: "human", name: "我" });
+    setPlayer2(computer && engine?.type === "local"
+      ? { type: "engine", engine, go: { t: "Time", c: 500 },
+          engineSettings: [{ name: "Skill Level", value: 5 }, { name: "Threads", value: 2 }, { name: "Hash", value: 128 }] }
+      : { type: "human", name: "朋友" });
+    setTabs((prev) => prev.map((tab) => tab.value === id
+      ? { ...tab, name: computer ? "人机对战" : "双人对战", type: "play" } : tab));
+  }
 
   useEffect(() => {
     const checkFiles = async () => {
@@ -253,6 +271,18 @@ export default function NewTabHome({ id }: { id: string }) {
       />
       <CreateRepertoireModal opened={openRepertoireModal} setOpened={setOpenRepertoireModal} />
       <Stack gap="lg" pt="sm">
+        <Card withBorder radius="md" p="lg">
+          <Stack gap="sm">
+            <Text fw={700} size="xl">棋研 · 对战与复盘</Text>
+            <Text c="dimmed">离线下棋，逐步复盘。查看胜率变化、妙手与失误，尝试引擎推荐的走法。</Text>
+            <Group>
+              <Button disabled={!engines?.some((e) => e.type === "local")} onClick={() => prepareGame(true)}>人机对战</Button>
+              <Button variant="light" onClick={() => prepareGame(false)}>本地双人</Button>
+              <Button variant="default" onClick={() => setOpenModal(true)}>导入棋谱复盘</Button>
+            </Group>
+            <Text size="xs" c="dimmed">人机默认不限时、500 毫秒思考；可在对局设置调整。对局后点击「复盘分析」，再生成报告。</Text>
+          </Stack>
+        </Card>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 5 }}>
           {cards.map((card) => (
             <Card shadow="sm" p="lg" radius="md" withBorder key={card.title}>

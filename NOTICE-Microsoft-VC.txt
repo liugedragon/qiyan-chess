@@ -1,0 +1,32 @@
+Microsoft Visual C++ runtime components
+
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+This portable package includes the following unmodified x64 release-runtime
+binaries, version 14.44.35211.0:
+
+- vcruntime140.dll
+- vcruntime140_1.dll
+
+They originate from the Microsoft.VC143.CRT directory under an installed
+Visual Studio 2022 VC/Redist/MSVC redistribution directory. Their original
+Microsoft copyright information and digital signatures are preserved.
+
+Microsoft's Visual Studio license terms and Visual Studio 2022 Distributable
+Code list define the redistribution rights and conditions for licensed Visual
+Studio users. The runtime components retain Microsoft's terms; QiyanChess
+application source code retains its separate GPL-3.0-only license.
+
+Full license and redistribution references:
+
+Visual Studio Community 2022 license terms:
+https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/
+
+Visual Studio 2022 Distributable Code list (Visual C++ Runtime Files):
+https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution#visual-c-runtime-files
+
+Microsoft Visual C++ Runtime 2015-2022 license terms:
+https://visualstudio.microsoft.com/license-terms/vs2022-cruntime/
+
+Microsoft deployment guidance, including application-local DLL deployment:
+https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files?view=msvc-170

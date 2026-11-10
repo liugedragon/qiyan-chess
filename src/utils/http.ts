@@ -1,7 +1,7 @@
 import { getVersion } from "@tauri-apps/api/app";
 
-const APP_NAME = "EnCroissant";
-const APP_REPO = "https://github.com/franciscoBSalgueiro/en-croissant";
+const APP_NAME = "QiyanChess";
+const APP_REPO = "https://github.com/liugedragon/qiyan-chess";
 
 let userAgent = APP_NAME;
 

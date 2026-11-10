@@ -80,9 +80,9 @@ function EvalChart(props: EvalChartProps) {
       }
       if (type === "wdl" && node.score.wdl) {
         return `
-         White: ${node.score.wdl[0] / 10}%
-         Draw: ${node.score.wdl[1] / 10}%
-         Black: ${node.score.wdl[2] / 10}%`;
+         白胜: ${node.score.wdl[0] / 10}%
+         和棋: ${node.score.wdl[1] / 10}%
+         黑胜: ${node.score.wdl[2] / 10}%`;
       }
     }
     if (node.children.length === 0) {
@@ -171,7 +171,7 @@ function EvalChart(props: EvalChartProps) {
       <Box pos="relative">
         <LoadingOverlay visible={props.isAnalysing === true} />
         <SegmentedControl
-          data={["CP", "WDL"]}
+          data={[{ value: "CP", label: "局势评分" }, { value: "WDL", label: "胜 / 和 / 负概率" }]}
           size="xs"
           value={chartType}
           onChange={(v) => setChartType(v as "CP" | "WDL")}

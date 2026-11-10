@@ -251,9 +251,14 @@ export const nativeBarAtom = atomWithStorage<boolean>("native-bar", false);
 export const isCompactLayoutAtom = atom<boolean>(false);
 export const showSidebarAtom = atomWithStorage<boolean>("show-sidebar", true);
 export const showTabBarAtom = atomWithStorage<boolean>("show-tabbar", true);
-export const telemetryEnabledAtom = atomWithStorage<boolean>("telemetry-enabled", true, undefined, {
-    getOnInit: true,
-});
+export const telemetryEnabledAtom = atomWithStorage<boolean>(
+    "telemetry-enabled",
+    false,
+    undefined,
+    {
+        getOnInit: true,
+    },
+);
 
 // Recent Files
 
@@ -386,7 +391,7 @@ export const currentPuzzleTimerAtom = tabValue(puzzleTimerFamily);
 
 // CP / WDL
 
-export const reportTypeAtom = atom<"CP" | "WDL">("CP");
+export const reportTypeAtom = atom<"CP" | "WDL">("WDL");
 
 export const scoreTypeFamily = atomFamily((_engine: string) => atom<"cp" | "wdl">("cp"));
 

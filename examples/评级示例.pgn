@@ -1,0 +1,7 @@
+[Event "评级功能示例：包含正常开局及故意丢马"]
+[White "演示白方"]
+[Black "演示黑方"]
+[Result "*"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nxe5 Nxe5 4. d4 Nc6 5. d5 Nb8
+6. Bc4 Nf6 7. Qf3 d6 8. Nc3 Be7 9. Be3 O-O 10. O-O-O b5 *

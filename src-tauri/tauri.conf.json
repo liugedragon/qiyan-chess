@@ -23,8 +23,8 @@
         "bundleMediaFramework": true
       }
     },
-    "publisher": "Francisco Salgueiro",
-    "shortDescription": "Ultimate Chess Toolkit",
+    "publisher": "liugedragon",
+    "shortDescription": "Chess analysis and local play",
     "longDescription": "",
     "macOS": {
       "entitlements": null,
@@ -36,10 +36,11 @@
     "resources": {
       "../sound/": "sound/",
       "../aixchess.duckdb_extension": "aixchess.duckdb_extension",
-      "resources/vision/": "vision/"
+      "resources/vision/": "vision/",
+      "../vendor/engine/": "engine/"
     },
     "targets": "all",
-    "createUpdaterArtifacts": "v1Compatible"
+    "createUpdaterArtifacts": false
   },
   "build": {
     "beforeDevCommand": "pnpm prepare:aix-extension && pnpm start-vite",
@@ -47,14 +48,14 @@
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420"
   },
-  "productName": "en-croissant",
-  "mainBinaryName": "en-croissant",
-  "identifier": "org.encroissant.app",
+  "productName": "棋研",
+  "mainBinaryName": "QiyanChess",
+  "identifier": "local.qiyan.chess",
   "plugins": {
     "deep-link": {
       "desktop": {
         "schemes": [
-          "encroissant"
+          "qiyanchess"
         ]
       }
     },
@@ -66,21 +67,17 @@
           "takesValue": true
         }
       ]
-    },
-    "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdGOTBFNjg2MzFGM0RDODUKUldTRjNQTXhodWFRZjc2MTNVeXRONGJkRjdGUXlCeW1MSlZESUczT0U4eE5hKzBmY3M2S0U2L0oK",
-      "endpoints": [
-        "https://www.encroissant.org/updates"
-      ]
     }
   },
   "app": {
     "withGlobalTauri": false,
     "windows": [
       {
-        "title": "En Croissant",
+        "title": "棋研 · 对战与复盘",
         "visible": false,
-        "decorations": true
+        "decorations": true,
+        "width": 1280,
+        "height": 850
       }
     ],
     "security": {
@@ -92,5 +89,6 @@
       },
       "csp": null
     }
-  }
+  },
+  "version": "0.15.1-qiyan.1"
 }

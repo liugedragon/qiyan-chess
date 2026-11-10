@@ -1,7 +1,13 @@
 {
-  "name": "en-croissant",
-  "version": "0.15.1",
+  "name": "qiyan-chess",
+  "version": "0.15.1-qiyan.1",
   "private": true,
+  "homepage": "https://github.com/liugedragon/qiyan-chess",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liugedragon/qiyan-chess.git"
+  },
   "type": "module",
   "scripts": {
     "prepare:aix-extension": "node ./scripts/prepare-aix-extension.mjs",

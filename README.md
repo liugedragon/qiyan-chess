@@ -1,60 +1,46 @@
-<br />
-<div align="center">
-  <a href="https://github.com/franciscoBSalgueiro/en-croissant">
-    <img width="115" height="115" src="https://github.com/franciscoBSalgueiro/en-croissant/blob/master/src-tauri/icons/icon.png" alt="Logo">
-  </a>
+# QiyanChess
 
-<h3 align="center">En Croissant</h3>
+[简体中文](README.zh-CN.md) · [Download for Windows](https://github.com/liugedragon/qiyan-chess/releases/latest) · [Report an issue](https://github.com/liugedragon/qiyan-chess/issues)
 
-  <p align="center">
-    The Ultimate Chess Toolkit
-    <br />
-    <a href="https://www.encroissant.org"><strong>encroissant.org</strong></a>
-    <br />
-    <br />
-    <a href="https://discord.gg/tdYzfDbSSW">Discord Server</a>
-    ·
-    <a href="https://www.encroissant.org/download">Download</a>
-    .
-    <a href="https://www.encroissant.org/docs">Explore the docs</a>
-  </p>
-</div>
+QiyanChess (棋研) is a desktop application for playing and reviewing chess games. Play against the bundled Stockfish 19 engine, open a PGN, and review the position, suggested moves and evaluation changes.
 
-En-Croissant is an open-source, cross-platform chess GUI that aims to be powerful, customizable and easy to use.
+This is a fork of [En Croissant](https://github.com/franciscoBSalgueiro/en-croissant). Its chess GUI, PGN handling, engine analysis, database and repertoire tools come from that project. QiyanChess adds Chinese home-screen shortcuts, bundled-engine setup and a shared move-review classification across the board, move list and report.
 
-## Features
+## Download and start
 
-- Store and analyze your games from [lichess.org](https://lichess.org) and [chess.com](https://chess.com)
-- Multi-engine analysis. Supports all UCI engines
-- Prepare a repertoire and train it with spaced repetition
-- Simple engine and database installation and management
-- Absolute or partial position search in the database
+1. Download the Windows x64 portable ZIP from [Releases](https://github.com/liugedragon/qiyan-chess/releases/latest).
+2. Extract the complete archive to a folder you can write to.
+3. Run `QiyanChess.exe`.
 
-<img src="https://github.com/franciscoBSalgueiro/encroisssant-site/blob/master/public/showcase.webp" />
+Keep the whole folder together. The engine, database extension, DLL, sounds and vision resources are required; the EXE alone is insufficient. Microsoft Edge WebView2 Runtime must be installed.
 
-## Building from source
+Local play and analysis with the bundled engine do not require an account or an API key. Online services and additional downloads use the network.
 
-Refer to the [Tauri documentation](https://tauri.app/start/prerequisites/) for the requirements on your platform.
+## Play and review
 
-En-Croissant uses pnpm as the package manager for dependencies. Refer to the [pnpm install instructions](https://pnpm.io/installation) for how to install it on your platform.
+- **Play the computer:** choose **人机对战** on the home screen. Defaults are no time limit, Stockfish Skill Level 5 and 500 ms per move; these can be changed in the game settings.
+- **Play locally:** choose **本地双人** to share one board on the same computer.
+- **Review a game:** import a PGN, or choose **复盘分析** after a game. Generate a report with Stockfish, then select a move or an evaluation-graph position to inspect alternatives.
+- **Keep your games:** save or export PGN from the file menu. A [synthetic example game](examples/评级示例.pgn) is included for trying the report.
 
-```bash
-git clone https://github.com/franciscoBSalgueiro/en-croissant
-cd en-croissant
-pnpm install
-pnpm build
-```
+Move ratings use engine analysis and heuristics. Longer analysis can change the result. The labels and accuracy values are not the same rating model used by Chess.com.
 
-The built app can be found at `src-tauri/target/release`
+## Data and updates
 
-## Donate
+Settings allow custom game, engine, database and puzzle directories. Application data uses the separate `local.qiyan.chess` identifier. The default PGN documents folder retains the upstream `EnCroissant` name; check the directory settings when moving existing games.
 
-If you wish to support the development of this GUI, you can do so [here](https://encroissant.org/support). All donations are greatly appreciated!
+Usage telemetry is disabled in this distribution. The update menu opens this repository's Releases page for manual downloads. Back up your PGN files and any databases before replacing an older application folder.
 
-## Contributing
+## Documentation
 
-For contributing to this project please refer to the [Contributing guide](./CONTRIBUTING.md).
+- [Windows build instructions](docs/BUILDING.md)
+- [Architecture and upstream changes](docs/LOCAL-FORK.md)
+- [Verification records](docs/VERIFICATION.md)
+- [Contributing](CONTRIBUTING.md)
+- [Third-party notices](THIRD-PARTY-NOTICES.md)
 
-## License
+The published package targets Windows x64. Remote game rooms and mobile packages are not included in this release.
 
-This software is licensed under GPL-3.0 License.
+## License and credits
+
+Application source is licensed under [GPL-3.0-only](LICENSE), with the upstream history and author attribution retained. Stockfish and other bundled components retain their own licenses. The ChessQ model weights are separately licensed under **PolyForm Noncommercial 1.0.0**; DINOv2-related materials use Apache 2.0. See [third-party notices](THIRD-PARTY-NOTICES.md) for the component licenses and source locations.

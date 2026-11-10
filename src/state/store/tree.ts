@@ -713,6 +713,11 @@ function addAnalysis(
         const [pos] = positionFromFen(cur.fen);
         if (pos && !pos.isEnd() && analysis[i].best.length > 0) {
             cur.score = analysis[i].best[0].score;
+            cur.depth = analysis[i].best[0].depth;
+            cur.engineBestMove = {
+                uci: analysis[i].best[0].uciMoves[0],
+                san: analysis[i].best[0].sanMoves[0],
+            };
             let prevScore = null;
             let prevprevScore = null;
             let prevMoves: BestMoves[] = [];

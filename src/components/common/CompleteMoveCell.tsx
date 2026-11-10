@@ -129,6 +129,8 @@ function MoveMenu({
   );
 }
 
+import { reviewAtPath } from "@/utils/move-review";
+
 function CompleteMoveCell({
   movePath,
   halfMoves,
@@ -156,6 +158,8 @@ function CompleteMoveCell({
 }) {
   const store = useContext(TreeStateContext)!;
   const isStart = useStore(store, (s) => equal(movePath, s.headers.start));
+  const reviewRoot = useStore(store, (s) => s.root);
+  const moveReview = reviewAtPath(reviewRoot, movePath);
 
   const isCurrentVariation = useStore(store, (s) => equal(s.position, movePath));
   const transpositions = useStoreWithEqualityFn(
@@ -177,6 +181,7 @@ function CompleteMoveCell({
       ref={ref as RefObject<HTMLButtonElement>}
       move={move!}
       annotations={annotations}
+      reviewKind={moveReview?.kind}
       isStart={isStart}
       isCurrentVariation={isCurrentVariation}
       onClick={() => goToMove(movePath)}
