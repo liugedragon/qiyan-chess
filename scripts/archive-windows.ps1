@@ -28,7 +28,7 @@ $inventory = @($files | ForEach-Object {
 $sourceCommit = (& git -C $projectRoot rev-parse HEAD).Trim()
 $manifest = [ordered]@{version=$version;sourceCommit=$sourceCommit;files=$inventory;manifestHashesItself=$false}
 $manifestPath = Join-Path $packageRoot 'package-manifest.json'
-$manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $manifestPath -Encoding utf8
+[IO.File]::WriteAllText($manifestPath, ($manifest | ConvertTo-Json -Depth 6), [Text.UTF8Encoding]::new($false))
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $stream = [IO.File]::Open($OutputPath, [IO.FileMode]::CreateNew)
